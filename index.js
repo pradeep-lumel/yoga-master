@@ -4,8 +4,8 @@ const app=express()
 const dotenv=require('dotenv').config()
 const port=process.env.PORT || 5000
 const cors=require('cors')
-const classesRouters=require('./routes/classesRoutes')
-
+const classesRoutes=require('./routes/classesRoutes')
+const cartRoutes=require('./routes/cartRoutes')
 const mongoose=require('mongoose')
 app.get('/',(req,res)=>{
 res.send('success')
@@ -28,7 +28,8 @@ mongoose.connect(mongoUrl, {
 
 app.use(cors())
 app.use(express.json())
-app.use('/api/v1/',classesRouters)
+app.use('/api/v1',classesRoutes)
+app.use('/api/v1',cartRoutes)
 
 //starting server
 app.listen(port,()=>console.log(`server running on port ${port}`))

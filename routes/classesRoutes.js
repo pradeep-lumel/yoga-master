@@ -112,4 +112,30 @@ router.get('/approved-classes', async (req, res) => {
       res.status(500).json({ success: false, error: error.message });
     }
   });
+
+//update class details
+router.patch('/update-class/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const updatedClass = req.body;
+      const query = { _id: id };
+      const options = { upsert: true };
+      const updateDoc = {
+          $set: updatedClass
+      };
+
+      const result = await classesModel.updateOne(query, updateDoc, options);
+      
+      res.json({
+          success: true,
+          result
+      });
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          message: 'Error updating class',
+          error
+      });
+  }
+});
 module.exports = router;
